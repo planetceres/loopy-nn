@@ -1,6 +1,6 @@
 ## Looping Neural Networks
 
-This is a Tensorflow implementation of looping neural networks, inspired by feedback processes observed in neuroscience. This follows the architecture presented in "Loopy Neural Nets: Imitating Feedback Loop in the Human Brain" by Caswell, Wang, and Shen of Stanford [link](http://cs231n.stanford.edu/reports2016/110_Report.pdf). 
+This is a Tensorflow implementation of looping neural networks, inspired by feedback processes observed in neuroscience. This follows the architecture presented in "Loopy Neural Nets: Imitating Feedback Loop in the Human Brain" by [Caswell, Wang, and Shen](http://cs231n.stanford.edu/reports2016/110_Report.pdf) at Stanford. 
 
 The looping CNN construction is fairly simple. Batched inputs enter the network as raw pixel values, and convolve through layers of filters. These layers together comprise a "loop", which can be "unrolled" n times. The defaults, consistent with the paper, for the MNIST dataset are 16, 8, and 1 layers with 3 unrolls.
 
