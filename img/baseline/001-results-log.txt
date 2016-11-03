@@ -1,0 +1,329 @@
+Size of:
+- Training-set:		55000
+- Test-set:		10000
+- Validation-set:	5000
+
+
+Accuracy on Test-Set: 11.3% (1135 / 10000)
+
+
+Accuracy on Test-Set: 11.3% (1135 / 10000)
+Mean: -0.00193, Stdev: 0.04117
+
+
+Iter:      1, Train-Batch Accuracy:  12.5%, Validation Acc:  11.3% *
+Time usage: 0:00:05
+
+Accuracy on Test-Set: 11.3% (1135 / 10000)
+
+Accuracy on Test-Set: 11.3% (1135 / 10000)
+Example errors:
+
+
+Confusion Matrix:
+[[   0  971    0    0    0    0    9    0    0    0]
+ [   0 1135    0    0    0    0    0    0    0    0]
+ [   0 1032    0    0    0    0    0    0    0    0]
+ [   0 1007    0    0    0    0    3    0    0    0]
+ [   0  982    0    0    0    0    0    0    0    0]
+ [   0  883    0    0    0    0    8    0    1    0]
+ [   0  945    0    0    0    0    0    0   13    0]
+ [   0 1021    0    0    0    0    7    0    0    0]
+ [   0  974    0    0    0    0    0    0    0    0]
+ [   0 1008    0    0    0    0    1    0    0    0]]
+
+
+Mean: -0.00195, Stdev: 0.04117
+
+
+Iter:     99, Train-Batch Accuracy:  73.4%, Validation Acc:  72.0% *
+Time usage: 0:00:18
+
+Accuracy on Test-Set: 74.0% (7395 / 10000)
+
+Accuracy on Test-Set: 74.0% (7395 / 10000)
+Example errors:
+
+
+Confusion Matrix:
+[[ 939   10    1    2    3    0   22    2    1    0]
+ [   0 1113    0    7    0    0   11    3    0    1]
+ [  22   41  819   69   29    0   31   17    3    1]
+ [  26   46   21  826    5    0   14   57    3   12]
+ [   3   26    7    0  906    0   18    2    0   20]
+ [ 181  102    6  272   63  141   32   61    6   28]
+ [  36   56    9    0   15    0  842    0    0    0]
+ [   2   64   24    4   27    0    1  887    4   15]
+ [  54  191   11  188   59    2   29   42  350   48]
+ [  22   43    7   14  227    0    0  122    2  572]]
+
+
+Mean: 0.00207, Stdev: 0.04379
+
+
+Iter:    100, Train-Batch Accuracy:  76.6%, Validation Acc:  81.4% *
+
+Iter:    200, Train-Batch Accuracy:  87.5%, Validation Acc:  86.3% *
+
+Iter:    300, Train-Batch Accuracy:  89.1%, Validation Acc:  88.7% *
+
+Iter:    400, Train-Batch Accuracy:  95.3%, Validation Acc:  88.7% *
+
+Iter:    500, Train-Batch Accuracy:  95.3%, Validation Acc:  91.3% *
+
+Iter:    600, Train-Batch Accuracy:  95.3%, Validation Acc:  91.7% *
+
+Iter:    700, Train-Batch Accuracy:  92.2%, Validation Acc:  92.1% *
+
+Iter:    800, Train-Batch Accuracy:  96.9%, Validation Acc:  92.7% *
+
+Iter:    900, Train-Batch Accuracy:  92.2%, Validation Acc:  93.2% *
+Time usage: 0:02:41
+
+Accuracy on Test-Set: 92.9% (9288 / 10000)
+
+Accuracy on Test-Set: 92.9% (9288 / 10000)
+Example errors:
+
+
+Confusion Matrix:
+[[ 960    0    0    1    0    2    9    1    7    0]
+ [   0 1099    3    2    1    1    4    0   25    0]
+ [  15    1  909   17   18    1   12   14   43    2]
+ [   3    1    7  934    0   11    0   11   34    9]
+ [   0    2    3    0  933    0   11    1    3   29]
+ [   8    1    2   34    7  786   15    1   34    4]
+ [  12    4    2    1   10   17  908    0    4    0]
+ [   2    8   24    6    7    0    0  920    8   53]
+ [   4    0    2   13    7    9    5    5  917   12]
+ [  11    5    4    8   27    7    0   12   13  922]]
+
+
+Mean: 0.01680, Stdev: 0.06231
+
+
+Iter:    100, Train-Batch Accuracy:  95.3%, Validation Acc:  93.6% *
+
+Iter:    200, Train-Batch Accuracy:  95.3%, Validation Acc:  93.7% *
+
+Iter:    300, Train-Batch Accuracy:  95.3%, Validation Acc:  94.5% *
+
+Iter:    400, Train-Batch Accuracy:  93.8%, Validation Acc:  94.2% 
+
+Iter:    500, Train-Batch Accuracy:  90.6%, Validation Acc:  95.1% *
+
+Iter:    600, Train-Batch Accuracy:  89.1%, Validation Acc:  95.3% *
+
+Iter:    700, Train-Batch Accuracy:  93.8%, Validation Acc:  95.7% *
+
+Iter:    800, Train-Batch Accuracy: 100.0%, Validation Acc:  95.6% 
+
+Iter:    900, Train-Batch Accuracy:  92.2%, Validation Acc:  95.9% *
+
+Iter:   1000, Train-Batch Accuracy:  98.4%, Validation Acc:  96.4% *
+
+Iter:   1100, Train-Batch Accuracy:  93.8%, Validation Acc:  96.2% 
+
+Iter:   1200, Train-Batch Accuracy:  95.3%, Validation Acc:  96.6% *
+
+Iter:   1300, Train-Batch Accuracy:  92.2%, Validation Acc:  96.7% *
+
+Iter:   1400, Train-Batch Accuracy:  93.8%, Validation Acc:  96.4% 
+
+Iter:   1500, Train-Batch Accuracy:  98.4%, Validation Acc:  96.5% 
+
+Iter:   1600, Train-Batch Accuracy:  96.9%, Validation Acc:  96.9% *
+
+Iter:   1700, Train-Batch Accuracy:  98.4%, Validation Acc:  96.9% 
+
+Iter:   1800, Train-Batch Accuracy:  96.9%, Validation Acc:  97.0% *
+
+Iter:   1900, Train-Batch Accuracy:  93.8%, Validation Acc:  97.2% *
+
+Iter:   2000, Train-Batch Accuracy:  98.4%, Validation Acc:  97.4% *
+
+Iter:   2100, Train-Batch Accuracy:  98.4%, Validation Acc:  97.3% 
+
+Iter:   2200, Train-Batch Accuracy:  96.9%, Validation Acc:  97.4% 
+
+Iter:   2300, Train-Batch Accuracy: 100.0%, Validation Acc:  97.5% *
+
+Iter:   2400, Train-Batch Accuracy: 100.0%, Validation Acc:  97.4% 
+
+Iter:   2500, Train-Batch Accuracy:  96.9%, Validation Acc:  97.6% *
+
+Iter:   2600, Train-Batch Accuracy: 100.0%, Validation Acc:  97.5% 
+
+Iter:   2700, Train-Batch Accuracy:  98.4%, Validation Acc:  97.7% *
+
+Iter:   2800, Train-Batch Accuracy: 100.0%, Validation Acc:  97.7% 
+
+Iter:   2900, Train-Batch Accuracy:  96.9%, Validation Acc:  97.9% *
+
+Iter:   3000, Train-Batch Accuracy:  98.4%, Validation Acc:  97.9% 
+
+Iter:   3100, Train-Batch Accuracy:  98.4%, Validation Acc:  97.8% 
+
+Iter:   3200, Train-Batch Accuracy:  98.4%, Validation Acc:  97.9% *
+
+Iter:   3300, Train-Batch Accuracy:  98.4%, Validation Acc:  97.9% 
+
+Iter:   3400, Train-Batch Accuracy:  98.4%, Validation Acc:  97.8% 
+
+Iter:   3500, Train-Batch Accuracy: 100.0%, Validation Acc:  97.9% 
+
+Iter:   3600, Train-Batch Accuracy:  98.4%, Validation Acc:  98.0% *
+
+Iter:   3700, Train-Batch Accuracy:  98.4%, Validation Acc:  98.1% *
+
+Iter:   3800, Train-Batch Accuracy:  95.3%, Validation Acc:  98.1% 
+
+Iter:   3900, Train-Batch Accuracy:  98.4%, Validation Acc:  98.2% *
+
+Iter:   4000, Train-Batch Accuracy:  98.4%, Validation Acc:  97.9% 
+
+Iter:   4100, Train-Batch Accuracy:  93.8%, Validation Acc:  98.0% 
+
+Iter:   4200, Train-Batch Accuracy:  98.4%, Validation Acc:  98.1% 
+
+Iter:   4300, Train-Batch Accuracy:  96.9%, Validation Acc:  98.1% 
+
+Iter:   4400, Train-Batch Accuracy:  93.8%, Validation Acc:  98.1% 
+
+Iter:   4500, Train-Batch Accuracy:  96.9%, Validation Acc:  98.2% *
+
+Iter:   4600, Train-Batch Accuracy: 100.0%, Validation Acc:  98.2% 
+
+Iter:   4700, Train-Batch Accuracy:  95.3%, Validation Acc:  98.3% *
+
+Iter:   4800, Train-Batch Accuracy: 100.0%, Validation Acc:  98.1% 
+
+Iter:   4900, Train-Batch Accuracy:  98.4%, Validation Acc:  98.3% 
+
+Iter:   5000, Train-Batch Accuracy:  98.4%, Validation Acc:  98.5% *
+
+Iter:   5100, Train-Batch Accuracy: 100.0%, Validation Acc:  98.3% 
+
+Iter:   5200, Train-Batch Accuracy:  96.9%, Validation Acc:  98.1% 
+
+Iter:   5300, Train-Batch Accuracy:  98.4%, Validation Acc:  98.4% 
+
+Iter:   5400, Train-Batch Accuracy:  98.4%, Validation Acc:  98.4% 
+
+Iter:   5500, Train-Batch Accuracy:  98.4%, Validation Acc:  98.4% 
+
+Iter:   5600, Train-Batch Accuracy:  96.9%, Validation Acc:  98.6% *
+
+Iter:   5700, Train-Batch Accuracy: 100.0%, Validation Acc:  98.4% 
+
+Iter:   5800, Train-Batch Accuracy:  98.4%, Validation Acc:  98.4% 
+
+Iter:   5900, Train-Batch Accuracy:  96.9%, Validation Acc:  98.3% 
+
+Iter:   6000, Train-Batch Accuracy: 100.0%, Validation Acc:  98.5% 
+
+Iter:   6100, Train-Batch Accuracy:  98.4%, Validation Acc:  98.5% 
+
+Iter:   6200, Train-Batch Accuracy: 100.0%, Validation Acc:  98.4% 
+
+Iter:   6300, Train-Batch Accuracy:  96.9%, Validation Acc:  98.5% 
+
+Iter:   6400, Train-Batch Accuracy: 100.0%, Validation Acc:  98.5% 
+
+Iter:   6500, Train-Batch Accuracy:  98.4%, Validation Acc:  98.6% *
+
+Iter:   6600, Train-Batch Accuracy:  96.9%, Validation Acc:  98.6% 
+
+Iter:   6700, Train-Batch Accuracy:  96.9%, Validation Acc:  98.6% 
+
+Iter:   6800, Train-Batch Accuracy: 100.0%, Validation Acc:  98.6% *
+
+Iter:   6900, Train-Batch Accuracy: 100.0%, Validation Acc:  98.5% 
+
+Iter:   7000, Train-Batch Accuracy:  96.9%, Validation Acc:  98.7% *
+
+Iter:   7100, Train-Batch Accuracy: 100.0%, Validation Acc:  98.6% 
+
+Iter:   7200, Train-Batch Accuracy:  98.4%, Validation Acc:  98.6% 
+
+Iter:   7300, Train-Batch Accuracy: 100.0%, Validation Acc:  98.5% 
+
+Iter:   7400, Train-Batch Accuracy:  95.3%, Validation Acc:  98.7% 
+
+Iter:   7500, Train-Batch Accuracy:  95.3%, Validation Acc:  98.8% *
+
+Iter:   7600, Train-Batch Accuracy: 100.0%, Validation Acc:  98.5% 
+
+Iter:   7700, Train-Batch Accuracy:  98.4%, Validation Acc:  98.7% 
+
+Iter:   7800, Train-Batch Accuracy:  96.9%, Validation Acc:  98.6% 
+
+Iter:   7900, Train-Batch Accuracy:  96.9%, Validation Acc:  98.8% 
+
+Iter:   8000, Train-Batch Accuracy: 100.0%, Validation Acc:  98.5% 
+
+Iter:   8100, Train-Batch Accuracy: 100.0%, Validation Acc:  98.6% 
+
+Iter:   8200, Train-Batch Accuracy:  98.4%, Validation Acc:  98.7% 
+
+Iter:   8300, Train-Batch Accuracy: 100.0%, Validation Acc:  98.8% 
+
+Iter:   8400, Train-Batch Accuracy: 100.0%, Validation Acc:  98.7% 
+
+Iter:   8500, Train-Batch Accuracy:  98.4%, Validation Acc:  98.5% 
+No improvement found in a while, stopping optimization.
+Time usage: 0:25:01
+
+Accuracy on Test-Set: 98.6% (9863 / 10000)
+
+Accuracy on Test-Set: 98.6% (9863 / 10000)
+Example errors:
+
+
+Confusion Matrix:
+[[ 974    1    0    0    0    1    2    1    1    0]
+ [   0 1134    0    0    0    0    0    1    0    0]
+ [   2    4 1019    0    1    0    0    5    1    0]
+ [   1    0    1  999    0    5    0    2    2    0]
+ [   0    1    0    0  981    0    0    0    0    0]
+ [   1    0    0    3    0  887    1    0    0    0]
+ [   3    3    0    0    8    6  938    0    0    0]
+ [   0    5    3    1    0    0    0 1018    1    0]
+ [   4    1    4    3    3    5    0    2  949    3]
+ [   3    7    0    3   16    7    0    6    3  964]]
+
+
+Mean: 0.02596, Stdev: 0.10146
+
+
+Accuracy on Test-Set: 98.6% (9863 / 10000)
+Example errors:
+
+
+Confusion Matrix:
+[[ 974    1    0    0    0    1    2    1    1    0]
+ [   0 1134    0    0    0    0    0    1    0    0]
+ [   2    4 1019    0    1    0    0    5    1    0]
+ [   1    0    1  999    0    5    0    2    2    0]
+ [   0    1    0    0  981    0    0    0    0    0]
+ [   1    0    0    3    0  887    1    0    0    0]
+ [   3    3    0    0    8    6  938    0    0    0]
+ [   0    5    3    1    0    0    0 1018    1    0]
+ [   4    1    4    3    3    5    0    2  949    3]
+ [   3    7    0    3   16    7    0    6    3  964]]
+
+
+Mean: 0.02596, Stdev: 0.10146
+
+
+Accuracy on Test-Set: 98.6% (9863 / 10000)
+Mean: 0.02596, Stdev: 0.10146
+
+
+Mean: 0.02596, Stdev: 0.10146
+
+
+Mean: 0.00123, Stdev: 0.06308
+
+
+Mean: 0.00123, Stdev: 0.06308
