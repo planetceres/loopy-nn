@@ -395,7 +395,7 @@ def plot_confusion_matrix(cls_pred, iter_num):
     # in a single Notebook cell.
     #plt.title('Confusion Matrix at iter: ' + str(iter_num))
     plt.text(0.5, 0, 'Iter: ' + str(iter_num), verticalalignment='bottom')
-    file_name = plt_dir + '/Confusion_Matrix_iter_' + str(iter_num) + 'png'
+    file_name = plt_dir + '/Confusion_Matrix_iter_' + str(iter_num) + '.png'
     plt.show()
     plt.savefig(file_name, format='png', bbox_inches='tight')
     
@@ -553,7 +553,7 @@ def plot_conv_weights(weights, input_channel=0, iter_num=0, layer_name='not defi
     #plt.title('Weights for ' + layer_name + ' at iter: ' + str(iter_num))
     plt.text(0.5, 0, 'Weights for ' + layer_name + ' at iter: ' + str(iter_num), verticalalignment='bottom')
 
-    file_name = plt_dir + '/Weights_iter_' + str(iter_num) + '_layer_' + str(layer_name) + 'png'
+    file_name = plt_dir + '/Weights_iter_' + str(iter_num) + '_layer_' + str(layer_name) + '.png'
     print(file_name)
     plt.show()
     plt.savefig(file_name, format='png', bbox_inches='tight')
@@ -612,7 +612,7 @@ def plot_conv_layer(layer, image, iter_num, layer_name):
     # in a single Notebook cell.
     #plt.title('Layer ' + layer_name + ' at iter: ' + str(iter_num))
     plt.text(0.5, 0, 'Layer ' + layer_name + ' at iter: ' + str(iter_num), verticalalignment='bottom')
-    file_name = plt_dir + '/Layer_iter_' + str(iter_num) + '_layer_' + str(layer_name) + 'png'
+    file_name = plt_dir + '/Layer_iter_' + str(iter_num) + '_layer_' + str(layer_name) + '.png'
     plt.show()
     plt.savefig(file_name, format='png', bbox_inches='tight')
 
