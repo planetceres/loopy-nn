@@ -6,11 +6,17 @@ from sklearn.metrics import confusion_matrix
 import time
 from datetime import timedelta
 import math
+import os
 
 tf.logging.set_verbosity(tf.logging.INFO)
 
-log_dir = 'tmp/loopy-nn/board/loop001' # Tensorboard log dir
-save_dir = 'tmp/loopy-nn/checkpoints/loop001' # Checkpoint saver dir
+log_dir = 'tmp/loopy-nn/board/loop003' # Tensorboard log dir
+save_dir = 'tmp/loopy-nn/checkpoints/loop003' # Checkpoint saver dir
+plt_dir = 'tmp/loopy-nn/plots/loop003' # Checkpoint saver dir
+
+for d in log_dir, save_dir, plt_dir:
+    if not os.path.exists(d):
+        os.makedirs(d)
 
 # MNIST data set
 from tensorflow.examples.tutorials.mnist import input_data
@@ -25,15 +31,17 @@ filter_size1 = 5
 
 # Convolutional Loop Layer 1
 loop_filter_shape = [16, 8, 1] # number of filters per layer 
-unrolls = 3 # Loops in network
+unrolls = 1 # Loops in network
 
 # Convolutional Layer 1 for baseline (disabled when running loop)
 run_baseline = False # Set to True when running baseline algorithm without loops
 num_filters1 = 16
+use_pooling_1 = True
 
 # Convolutional Layer 2
 filter_size2 = 5
 num_filters2 = 36
+use_pooling_2 = True
 
 # Fully-connected layer size
 fc_size = 128 
@@ -45,9 +53,18 @@ img_shape = (img_size, img_size) # Tuple for reshaping images from flattened arr
 num_channels = 1 # color channels (1 = grayscale, 3 = rgb)
 num_classes = 10 # Number of classes (MNIST has 10 digits to classify)
 
-# Many of the functions here are taken directly from Magnus Petersson's excellent series on Tensorflow tutorials. Please see his repositories at: https://githhub.com/Hvass-Labs/TensorFlow-Tutorials
+# Placeholders
+x = tf.placeholder(tf.float32, shape=[None, img_size_flat], name='x')
+x_image = tf.reshape(x, [-1, img_size, img_size, num_channels])
+y_true = tf.placeholder(tf.float32, shape=[None, 10], name='y_true')
+y_true_cls = tf.argmax(y_true, dimension=1)
+
+# Many of the functions here are modified or taken directly from Magnus Petersson's excellent series on Tensorflow tutorials. Please see his repositories at: https://githhub.com/Hvass-Labs/TensorFlow-Tutorials
 def new_weights(i, lp, shape):
-    name = 'weights_' + lp + '_' + i
+    if lp == -1:
+        name = 'weights_'
+    else:
+        name = 'weights_' + str(lp) + '_' + str(i)
     return tf.Variable(tf.truncated_normal(shape, stddev=0.05), name=name)
     
 def new_biases(length):
@@ -68,7 +85,7 @@ def new_conv_layer(input,              # Layer input
                    use_pooling=True):  # Use max pooling boolean
 
     shape = [filter_size, filter_size, num_input_channels, num_filters]
-    weights = new_weights(shape=shape)
+    weights = new_weights(i=-1, lp=-1, shape=shape)
     biases = new_biases(length=num_filters)
 
     layer = tf.nn.conv2d(input=input,
@@ -192,7 +209,7 @@ def new_fc_layer(input,          # The previous layer.
                  num_outputs,    # Num. outputs.
                  use_relu=True): # Use Rectified Linear Unit (ReLU)?
 
-    weights = new_weights(shape=[num_inputs, num_outputs])
+    weights = new_weights(i=-1, lp=-1, shape=[num_inputs, num_outputs])
     biases = new_biases(length=num_outputs)
     layer = tf.matmul(input, weights) + biases
 
@@ -208,7 +225,7 @@ if run_baseline:
                        num_input_channels=num_channels,
                        filter_size=filter_size1,
                        num_filters=num_filters1,
-                       use_pooling=True)
+                       use_pooling=use_pooling_1)
 else:
     layer_conv1, weights_conv1 = \
         loop_layered_network(input=x_image,
@@ -216,7 +233,8 @@ else:
                        filter_size=filter_size1,
                        num_filters=num_filters1,
                        loop_filter_shape=loop_filter_shape,
-                       unrolls=unrolls)
+                       unrolls=unrolls,
+                       use_pooling=use_pooling_1)
                        
 # Build network after looping layer
 layer_conv2, weights_conv2 = \
@@ -224,7 +242,7 @@ layer_conv2, weights_conv2 = \
                    num_input_channels=num_filters1,
                    filter_size=filter_size2,
                    num_filters=num_filters2,
-                   use_pooling=True)
+                   use_pooling=use_pooling_2)
 
 layer_flat, num_features = flatten_layer(layer_conv2)
 
@@ -346,7 +364,7 @@ def plot_example_errors(cls_pred, correct):
                 cls_true=cls_true[0:9],
                 cls_pred=cls_pred[0:9])
                 
-def plot_confusion_matrix(cls_pred):
+def plot_confusion_matrix(cls_pred, iter_num):
     # This is called from print_test_accuracy() below.
 
     # cls_pred is an array of the predicted class-number for
@@ -375,7 +393,11 @@ def plot_confusion_matrix(cls_pred):
 
     # Ensure the plot is shown correctly with multiple plots
     # in a single Notebook cell.
+    #plt.title('Confusion Matrix at iter: ' + str(iter_num))
+    plt.text(0.5, 0, 'Iter: ' + str(iter_num), verticalalignment='bottom')
+    file_name = plt_dir + '/Confusion_Matrix_iter_' + str(iter_num) + 'png'
     plt.show()
+    plt.savefig(file_name, format='png', bbox_inches='tight')
     
     
 # Split the data-set in batches of this size to limit RAM usage.
@@ -472,9 +494,9 @@ def print_test_accuracy(show_example_errors=False,
     # Plot the confusion matrix, if desired.
     if show_confusion_matrix:
         print("Confusion Matrix:")
-        plot_confusion_matrix(cls_pred=cls_pred)
+        plot_confusion_matrix(cls_pred=cls_pred, iter_num=total_iterations)
         
-def plot_conv_weights(weights, input_channel=0):
+def plot_conv_weights(weights, input_channel=0, iter_num=0, layer_name='not defined'):
     # Assume weights are TensorFlow ops for 4-dim variables
     # e.g. weights_conv1 or weights_conv2.
 
@@ -528,12 +550,18 @@ def plot_conv_weights(weights, input_channel=0):
     
     # Ensure the plot is shown correctly with multiple plots
     # in a single Notebook cell.
+    #plt.title('Weights for ' + layer_name + ' at iter: ' + str(iter_num))
+    plt.text(0.5, 0, 'Weights for ' + layer_name + ' at iter: ' + str(iter_num), verticalalignment='bottom')
+
+    file_name = plt_dir + '/Weights_iter_' + str(iter_num) + '_layer_' + str(layer_name) + 'png'
+    print(file_name)
     plt.show()
+    plt.savefig(file_name, format='png', bbox_inches='tight')
 
 # Split the test-set into smaller batches of this size.
 #test_batch_size = 256
     
-def plot_conv_layer(layer, image):
+def plot_conv_layer(layer, image, iter_num, layer_name):
     # Assume layer is a TensorFlow op that outputs a 4-dim tensor
     # which is the output of a convolutional layer,
     # e.g. layer_conv1 or layer_conv2.
@@ -582,8 +610,11 @@ def plot_conv_layer(layer, image):
     
     # Ensure the plot is shown correctly with multiple plots
     # in a single Notebook cell.
+    #plt.title('Layer ' + layer_name + ' at iter: ' + str(iter_num))
+    plt.text(0.5, 0, 'Layer ' + layer_name + ' at iter: ' + str(iter_num), verticalalignment='bottom')
+    file_name = plt_dir + '/Layer_iter_' + str(iter_num) + '_layer_' + str(layer_name) + 'png'
     plt.show()
-
+    plt.savefig(file_name, format='png', bbox_inches='tight')
 
 def plot_image(image):
     plt.imshow(image.reshape(img_shape),
@@ -593,13 +624,9 @@ def plot_image(image):
     plt.show()
         
 ######################################################################
-#                     Placeholders
+#                     Loss and Optimization
 ######################################################################
 
-x = tf.placeholder(tf.float32, shape=[None, img_size_flat], name='x')
-x_image = tf.reshape(x, [-1, img_size, img_size, num_channels])
-y_true = tf.placeholder(tf.float32, shape=[None, 10], name='y_true')
-y_true_cls = tf.argmax(y_true, dimension=1)
 
 y_pred = tf.nn.softmax(layer_fc2)
 y_pred_cls = tf.argmax(y_pred, dimension=1)
@@ -611,8 +638,6 @@ correct_prediction = tf.equal(y_pred_cls, y_true_cls)
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
 saver = tf.train.Saver()
-if not os.path.exists(save_dir):
-    os.makedirs(save_dir)
 save_path = save_dir + 'best_validation'
 
 
@@ -634,8 +659,8 @@ print("- Training-set:\t\t{}".format(len(data.train.labels)))
 print("- Test-set:\t\t{}".format(len(data.test.labels)))
 print("- Validation-set:\t{}".format(len(data.validation.labels)))
 
-images = data.test.images[10:19] # View sample images from the test-set.
-cls_true = data.test.cls[10:19] # True classes for sample images
+images = data.test.images[11:20] # View sample images from the test-set.
+cls_true = data.test.cls[11:20] # True classes for sample images
 plot_images(images=images, cls_true=cls_true) # Plot samples
 
 image1 = data.test.images[0] 
@@ -645,49 +670,49 @@ plot_image(image2)
 
 print_test_accuracy()
 
-plot_conv_weights(weights=weights_conv1)
-plot_conv_weights(weights=weights_conv2)
+plot_conv_weights(weights=weights_conv1, iter_num=total_iterations, layer_name='Conv_1')
+plot_conv_weights(weights=weights_conv2, iter_num=total_iterations, layer_name='Conv_2')
 
 optimize_loopy(num_iterations=1)
 print_test_accuracy()
 print_test_accuracy(show_example_errors=True,
                     show_confusion_matrix=True)
-plot_conv_weights(weights=weights_conv1)
-plot_conv_layer(layer=layer_conv1, image=image1)
-plot_conv_layer(layer=layer_conv1, image=image2)
-plot_conv_layer(layer=layer_conv2, image=image1)
-plot_conv_layer(layer=layer_conv2, image=image2)
+plot_conv_weights(weights=weights_conv1, iter_num=total_iterations, layer_name='Conv_1')
+plot_conv_layer(layer=layer_conv1, image=image1, iter_num=total_iterations, layer_name='Conv_1')
+plot_conv_layer(layer=layer_conv1, image=image2, iter_num=total_iterations, layer_name='Conv_1')
+plot_conv_layer(layer=layer_conv2, image=image1, iter_num=total_iterations, layer_name='Conv_2')
+plot_conv_layer(layer=layer_conv2, image=image2, iter_num=total_iterations, layer_name='Conv_2')
 
 optimize_loopy(num_iterations=99)
 print_test_accuracy()
 print_test_accuracy(show_example_errors=True,
                     show_confusion_matrix=True)
-plot_conv_weights(weights=weights_conv1)
+plot_conv_weights(weights=weights_conv1, iter_num=total_iterations, layer_name='Conv_1')
 
-plot_conv_layer(layer=layer_conv1, image=image1)
-plot_conv_layer(layer=layer_conv1, image=image2)
-plot_conv_layer(layer=layer_conv2, image=image1)
-plot_conv_layer(layer=layer_conv2, image=image2)
+plot_conv_layer(layer=layer_conv1, image=image1, iter_num=total_iterations, layer_name='Conv_1')
+plot_conv_layer(layer=layer_conv1, image=image2, iter_num=total_iterations, layer_name='Conv_1')
+plot_conv_layer(layer=layer_conv2, image=image1, iter_num=total_iterations, layer_name='Conv_2')
+plot_conv_layer(layer=layer_conv2, image=image2, iter_num=total_iterations, layer_name='Conv_2')
 
 optimize_loopy(num_iterations=900)
 print_test_accuracy()
 print_test_accuracy(show_example_errors=True,
                     show_confusion_matrix=True)
-plot_conv_weights(weights=weights_conv1)
-plot_conv_layer(layer=layer_conv1, image=image1)
-plot_conv_layer(layer=layer_conv1, image=image2)
-plot_conv_layer(layer=layer_conv2, image=image1)
-plot_conv_layer(layer=layer_conv2, image=image2)
+plot_conv_weights(weights=weights_conv1, iter_num=total_iterations, layer_name='Conv_1')
+plot_conv_layer(layer=layer_conv1, image=image1, iter_num=total_iterations, layer_name='Conv_1')
+plot_conv_layer(layer=layer_conv1, image=image2, iter_num=total_iterations, layer_name='Conv_1')
+plot_conv_layer(layer=layer_conv2, image=image1, iter_num=total_iterations, layer_name='Conv_2')
+plot_conv_layer(layer=layer_conv2, image=image2, iter_num=total_iterations, layer_name='Conv_2')
 
 optimize_loopy(num_iterations=9000)
 print_test_accuracy()
 print_test_accuracy(show_example_errors=True,
                     show_confusion_matrix=True)
-plot_conv_weights(weights=weights_conv1)
-plot_conv_layer(layer=layer_conv1, image=image1)
-plot_conv_layer(layer=layer_conv1, image=image2)
-plot_conv_layer(layer=layer_conv2, image=image1)
-plot_conv_layer(layer=layer_conv2, image=image2)
+plot_conv_weights(weights=weights_conv1, iter_num=total_iterations, layer_name='Conv_1')
+plot_conv_layer(layer=layer_conv1, image=image1, iter_num=total_iterations, layer_name='Conv_1')
+plot_conv_layer(layer=layer_conv1, image=image2, iter_num=total_iterations, layer_name='Conv_1')
+plot_conv_layer(layer=layer_conv2, image=image1, iter_num=total_iterations, layer_name='Conv_2')
+plot_conv_layer(layer=layer_conv2, image=image2, iter_num=total_iterations, layer_name='Conv_2')
 
 session.close()
 
