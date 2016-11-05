@@ -10,9 +10,9 @@ import os
 
 tf.logging.set_verbosity(tf.logging.INFO)
 
-log_dir = 'tmp/loopy-nn/board/loop003' # Tensorboard log dir
-save_dir = 'tmp/loopy-nn/checkpoints/loop003' # Checkpoint saver dir
-plt_dir = 'tmp/loopy-nn/plots/loop003' # Checkpoint saver dir
+log_dir = 'tmp/loopy-nn/board/loop004' # Tensorboard log dir
+save_dir = 'tmp/loopy-nn/checkpoints/loop004' # Checkpoint saver dir
+plt_dir = 'tmp/loopy-nn/plots/loop004' # Checkpoint saver dir
 
 for d in log_dir, save_dir, plt_dir:
     if not os.path.exists(d):
@@ -34,7 +34,7 @@ loop_filter_shape = [16, 8, 1] # number of filters per layer
 unrolls = 1 # Loops in network
 
 # Convolutional Layer 1 for baseline (disabled when running loop)
-run_baseline = False # Set to True when running baseline algorithm without loops
+run_baseline = True # Set to True when running baseline algorithm without loops
 num_filters1 = 16
 use_pooling_1 = True
 
@@ -272,7 +272,8 @@ def optimize_loopy(num_iterations):
         feed_dict_train = {x: x_batch,
                            y_true: y_true_batch}
 
-        session.run(optimizer, feed_dict=feed_dict_train)
+        summary, optimize = session.run([summary_op, optimizer], feed_dict=feed_dict_train)
+        summary_writer_train.add_summary(summary, i)
 
         # Print status every 100 iterations and after last iteration.
         if (total_iterations % 100 == 0) or (i == (num_iterations - 1)):
@@ -468,6 +469,15 @@ def validation_accuracy():
     
     # Calculate the classification accuracy and return it.
     return cls_accuracy(correct)
+
+def validation_accuracy_summary():
+    # Get the array of booleans whether the classifications are correct
+    # for the validation-set.
+    # The function returns two values but we only need the first.
+    correct, predictions = predict_cls_validation()
+    
+    # Calculate the classification accuracy and return it.
+    return correct
     
 def print_test_accuracy(show_example_errors=False,
                         show_confusion_matrix=False):
@@ -605,8 +615,8 @@ def plot_conv_layer(layer, image, iter_num, layer_name):
     else:
         img = values[0, :, :, 0]
         # Plot image.
-        plt.imshow(img, vmin=w_min, vmax=w_max,
-                  interpolation='nearest', cmap='seismic')
+        plt.imshow(img, # vmin=w_min, vmax=w_max,
+                  interpolation='nearest', cmap='binary')
     
     # Ensure the plot is shown correctly with multiple plots
     # in a single Notebook cell.
@@ -649,7 +659,10 @@ session = tf.Session()
 session.run(tf.initialize_all_variables())
 
 # TensorBoard Summary Writer
-summary_writer = tf.train.SummaryWriter(log_dir, session.graph)
+accuracy_summary = tf.scalar_summary('Training Accuracy', accuracy)
+loss_summary = tf.scalar_summary('Training Loss', cost)
+summary_op = tf.merge_all_summaries()
+summary_writer_train = tf.train.SummaryWriter(log_dir + '/train', session.graph)
 
 data.test.cls = np.argmax(data.test.labels, axis=1)
 data.validation.cls = np.argmax(data.validation.labels, axis=1)
